@@ -200,7 +200,7 @@
 
         <li class="list-group-item">
             <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="" id="barInsidePercentage">
+              <input class="form-check-input" type="checkbox" value="" id="barInsidePercentage" checked>
               <label class="form-check-label" for="barInsidePercentage">
                 Bar Inside percentage
               </label>
