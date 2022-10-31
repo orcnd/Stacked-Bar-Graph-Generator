@@ -4,10 +4,8 @@ import 'https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0'
 $(document).ready(function () {
   Chart.register(ChartDataLabels)
 })
-$('#addDataSave,#regenerateButton').click(function () {
-  $('#addCSVModal').modal('hide')
+$('#regenerateButton').click(function () {
   drawChart(formatData($('#csvData').val()))
-  return true
 })
 
 function formatData(dataVirgin) {
@@ -47,12 +45,26 @@ function formatData(dataVirgin) {
 }
 
 function drawChart(dataGiven) {
+  var scaleYOptions = {
+    stacked: true,
+    ticks: {
+      beginAtZero: true,
+    },
+  }
+
+  if (!$('#autoMinMax').is(':checked')) {
+    scaleYOptions.min = parseFloat($('#min').val())
+    scaleYOptions.max = parseFloat($('#max').val())
+    scaleYOptions.barStart = parseFloat($('#min').val())
+    scaleYOptions.barEnd = parseFloat($('#max').val())
+  }
+
   const config = {
     type: 'bar',
     data: dataGiven,
     plugins: [ChartDataLabels],
     options: {
-      responsive: true,
+      responsive: $('#responsiveSize').is(':checked'),
       tooltips: { enabled: false },
       events: [],
       plugins: {
@@ -65,10 +77,16 @@ function drawChart(dataGiven) {
                 total += ds.data[ctx.dataIndex]
               }
             }
+            var str = ''
+            if ($('#barInsidePercentage').is(':checked')) {
+              str += '%' + Math.round((value / total) * 100)
+            }
 
-            return (
-              '%' + Math.round((value / total) * 100) + '\n (' + value + ')'
-            )
+            if ($('#barInsideAmount').is(':checked')) {
+              if ($('#barInsidePercentage').is(':checked')) str = '\n'
+              str += '(' + new Intl.NumberFormat().format(value) + ')'
+            }
+            return str
           },
           color: $('#barInsideColor').val(),
         },
@@ -80,22 +98,18 @@ function drawChart(dataGiven) {
         x: {
           stacked: true,
         },
-        y: {
-          stacked: true,
-          min: parseFloat($('#min').val()),
-          max: parseFloat($('#max').val()),
-          barStart: parseFloat($('#min').val()),
-          barEnd: parseFloat($('#max').val()),
-          ticks: {
-            beginAtZero: true,
-          },
-        },
+        y: scaleYOptions,
       },
     },
   }
 
   $('#myChart').remove() // this is my <canvas> element
   $('#canvasContainer').append('<canvas id="myChart"><canvas>')
+
+  if (!$('#responsiveSize').is(':checked')) {
+    $('#myChart').attr('width', $('#width').val())
+    $('#myChart').attr('height', $('#height').val())
+  }
   var ctx = document.getElementById('myChart').getContext('2d')
   var myChart = new Chart(ctx, config)
 }
