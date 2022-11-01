@@ -215,6 +215,14 @@
               </label>
             </div>
         </li>
+        <li class="list-group-item">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="" id="trendline" checked>
+              <label class="form-check-label" for="trendline">
+                Trendline
+              </label>
+            </div>
+        </li>
 
         <li class="list-group-item">
             <div class="input-group">       
