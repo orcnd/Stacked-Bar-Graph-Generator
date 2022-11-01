@@ -40,6 +40,7 @@ function formatData(dataVirgin) {
           colorMax: trendlineColors[i],
           lineStyle: 'dotted|solid',
           width: 2,
+          projection: true,
         }
       }
     }

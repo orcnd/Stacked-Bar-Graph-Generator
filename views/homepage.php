@@ -123,7 +123,9 @@
         <li class="nav-item">
           <a class="nav-link " href="#" data-bs-toggle="modal"  data-bs-target="#settingsModal">Settings</a>
         </li>
-        
+        <li class="nav-item">
+          <a class="nav-link " href="sample.xlsx" download>Sample Data</a>
+        </li>
         <li>
             <a  href="#" id="regenerateButton" class="btn btn-primary pulse animated">Generate</a>
         </li>
